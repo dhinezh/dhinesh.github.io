@@ -1,0 +1,45 @@
+html {
+    height: 100%;
+}
+body {
+    min-height: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+img {
+    max-width: 100%;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: @primary;
+    border-color: @primary;
+    &:hover, &:focus, &:active {
+        color: #fff;
+        background-color: darken(@primary, 3%)!important;
+        border-color: darken(@primary, 3%)!important;
+        box-shadow: initial!important;
+    }
+}
+
+.btn-secondary {
+    color: @secondary;
+    background-color: #fff;
+    border-color: @secondary;
+    &:hover, &:focus, &:active {
+        color: @secondary;
+        background-color: #fff!important;
+        border-color: @secondary!important;
+        box-shadow: initial!important;
+    }
+}
+
+.login-wrapper {
+    border: 1px solid #b1b1b1;
+    padding: 1rem;
+    max-width: 18.75rem;
+    width: 100%;
+    margin-top: 5rem;
+    border-radius: 4px;
+}
