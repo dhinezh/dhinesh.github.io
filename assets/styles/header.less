@@ -7,8 +7,17 @@
         }
     }
     .navbar {
+        background-color: initial;
+        box-shadow: initial;
+        height: auto;
+        line-height: 1;
         .navbar-toggler {
             outline: 0;
+            border: 0;
+            padding: 0;
+            &:focus {
+                background-color: initial;
+            }
         }
         .nav-link {
             color: @dark-grey;
@@ -36,6 +45,7 @@
             &:hover,
             &.active {
                 color: @primary;
+                background: initial;
                 &::after,
                 &::before {
                     width: 50%;
