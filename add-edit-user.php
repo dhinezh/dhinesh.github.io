@@ -22,7 +22,7 @@
     <link rel="stylesheet/less" type="text/css" href="./assets/styles/styles.less" />
     <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.9.0/less.min.js"></script>
     <script type='text/javascript' src='./assets/lib/plugins/gen_validatorv31.js'></script>
-    <title>Dashboard | Fast value inspection</title>
+    <title>Add/Edit Users | Fast value inspection</title>
 </head>
 
 <body class="dashboard">
@@ -32,10 +32,10 @@
         </a>
         <ul class="menu-list">
             <li>
-                <a href="#" class="menu-option">Add Entry</a>
+                <a href="./dashboard.php" class="menu-option">Dashboard</a>
             </li>
             <li>
-                <a href="#" class="menu-option">View details</a>
+                <a href="./view-details.php" class="menu-option">View vehicle details</a>
             </li>
             <li>
                 <a href="#" class="menu-option active">Add/Edit users</a>
