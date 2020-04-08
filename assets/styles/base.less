@@ -127,6 +127,7 @@ textarea.materialize-textarea:focus:not([readonly]) {
 .steps ul, .actions ul {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     li.disabled {
         opacity: 0.5;
         pointer-events: none;
@@ -182,11 +183,19 @@ textarea.materialize-textarea:focus:not([readonly]) {
 .form-register .steps li.current a:active .step-icon,
 .form-register .steps li.done a .step-icon,
 .form-register .steps li.done a:active .step-icon {
-    background: #4fab40;
     color: #fff;
     box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.25);
     -o-box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.25);
     -ms-box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.25);
     -moz-box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.25);
     -webkit-box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.25);
+}
+
+.form-register .steps li.current a .step-icon,
+.form-register .steps li.current a:active .step-icon {
+    background: #68bbfd;
+}
+.form-register .steps li.done a .step-icon,
+.form-register .steps li.done a:active .step-icon {
+    background: #4fab40;
 }
