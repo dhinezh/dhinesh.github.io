@@ -1,3 +1,13 @@
+<?php
+session_start();
+require_once $_SERVER['DOCUMENT_ROOT'] . '/php-scripts/main.php';
+$main = new Main();
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	$pass = $_POST["password"];
+	$mobile = (int)$_POST["mobile"];
+	$loginResponse = $main->login($mobile, $pass);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,7 +51,7 @@
 							<a class="nav-link" href="#">Home</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="./dashboard.html">Contact</a>
+							<a class="nav-link" href="./dashboard.php">Contact</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link active" href="#">Login <span class="sr-only">(current)</span></a>
@@ -54,11 +64,29 @@
 	<div class="d-flex justify-content-center align-items-start flex-grow-1">
 		<div class="login-wrapper">
 			<h2 class="text-center">Login</h2>
-			<form id='login' action='' method='post'>
+			<?php
+			if (!empty($loginResponse["status"])) {
+			?>
+				<?php
+				if ($loginResponse["status"] == "error") {
+				?>
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<?php echo $loginResponse["message"]; ?>
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				<?php
+				}
+				?>
+			<?php
+			}
+			?>
+			<form id='login' action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
 				<div class="input-field">
-					<input type="text" class="validate" id="username" name="username">
-					<label for="username">Username</label>
-					<span class="helper-text" id='login_username_errorloc'></span>
+					<input type="text" class="validate" id="mobile" name="mobile">
+					<label for="mobile">Mobile number</label>
+					<span class="helper-text" id='login_mobile_errorloc'></span>
 				</div>
 				<div class="input-field">
 					<input type="password" class="validate" id="password" name="password">
@@ -88,12 +116,17 @@
 			frmvalidator.EnableOnPageErrorDisplay();
 			frmvalidator.EnableMsgsTogether();
 
-			frmvalidator.addValidation("username", "req", "Please provide your username");
+			frmvalidator.addValidation("mobile", "req", "Please provide your mobile number");
 
 			frmvalidator.addValidation("password", "req", "Please provide the password");
 		});
 		// ]]>
 	</script>
+	<script>
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+    </script>
 </body>
 
 </html>

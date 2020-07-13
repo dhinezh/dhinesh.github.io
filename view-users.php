@@ -1,3 +1,15 @@
+<?php
+session_start();
+require_once $_SERVER['DOCUMENT_ROOT'] . '/php-scripts/main.php';
+$main = new Main();
+$user = $main->loginCheck();
+if (!$user) {
+    header("location:index.php");
+} else {
+    $username = $_SESSION['user']['username'];
+    $usertype = $_SESSION['user']['usertype'];
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,26 +34,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
     <link rel="stylesheet/less" type="text/css" href="./assets/styles/styles.less" />
     <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.9.0/less.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
-    <title>View vehicle details | Fast value inspection</title>
-    <script>
-        $(document).ready(function() {
-            var table = $('#tbl-contact').DataTable({
-                "scrollX": true,
-                "pagingType": "numbers",
-                // "processing": true,
-                // "serverSide": true,
-                // "ajax": "php scripts/tableServer.php",
-                order: [
-                    [2, 'asc']
-                ],
-                columnDefs: [{
-                    targets: "_all",
-                    orderable: false
-                }]
-            });
-        });
-    </script>
+    <title>View user details | Fast value inspection</title>
 </head>
 
 <body class="dashboard">
@@ -51,14 +44,29 @@
         </a>
         <ul class="menu-list">
             <li>
-                <a href="./dashboard.html" class="menu-option">Dashboard</a>
+                <a href="./dashboard.php" class="menu-option">Dashboard</a>
             </li>
             <li>
-                <a href="#" class="menu-option active">View vehicle details</a>
+                <a href="./view-details.php" class="menu-option">View vehicle details</a>
             </li>
-            <li>
-                <a href="./add-edit-user.html" class="menu-option">Add/Edit users</a>
-            </li>
+            <?php
+            if (isset($usertype) && $usertype == 'admin') {
+            ?>
+                <li>
+                    <a href="./add-edit-user.php" class="menu-option">Add/Edit users</a>
+                </li>
+            <?php
+            }
+            ?>
+            <?php
+            if (isset($usertype) && $usertype == 'admin') {
+            ?>
+                <li>
+                    <a href="./view-users.php" class="menu-option active">View users</a>
+                </li>
+            <?php
+            }
+            ?>
         </ul>
     </aside>
     <div class="sidenav-overlay"></div>
@@ -69,10 +77,16 @@
                     <i class="material-icons">menu</i>
                 </a>
                 <div class="d-flex align-items-center flex-grow-1 justify-content-end justify-content-lg-between">
-                    <h2 class="d-none d-lg-block m-0">View vehicle details</h2>
+                    <h2 class="d-none d-lg-block m-0">View user details</h2>
                     <div class="d-flex align-items-center">
-                        <p class="m-0 mr-3">Welcome Saravanan</p>
-                        <a href="./index.html" class="btn-floating btn-medium waves-effect waves-light">
+                        <p class="m-0 mr-3">Welcome <?php
+                                                    if (isset($username)) {
+                                                    ?>
+                                <?php echo $username; ?>
+                            <?php
+                                                    }
+                            ?></p>
+                        <a href="./logout.php" class="btn-floating btn-medium waves-effect waves-light">
                             <i class="material-icons">input</i>
                         </a>
                     </div>
@@ -84,14 +98,14 @@
             <div class="container pt-5">
                 <div class="card">
                     <div class="card-content">
+                        <div id="alert-message"></div>
                         <table name="tbl-contact" id="tbl-contact" class="display highlight responsive-table" cellspacing="0" width="100%">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Last Name</th>
-                                    <th>Address</th>
-                                    <th>Phone</th>
-                                    <th>Date Of Birth</th>
+                                    <th>Username</th>
+                                    <th>Mobile</th>
+                                    <th>Usertype</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                         </table>
@@ -103,13 +117,16 @@
     </main>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!--JavaScript at end of body for optimized loading-->
     <script type="text/javascript" src="./assets/lib/core/materialize.min.js"></script>
+    <script type="text/javascript" src="./assets/js/userDetails.js"></script>
     <script>
         $(document).ready(function() {
+            $('select').formSelect();
             $('.sidenav-trigger').on('click', function(e) {
                 $('.side-menu-wrapper').addClass("show");
                 $('.sidenav-overlay').on('click', function(e) {
@@ -118,6 +135,11 @@
                 e.preventDefault();
             });
         });
+    </script>
+    <script>
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
     </script>
 </body>
 

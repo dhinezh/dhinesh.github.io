@@ -1,3 +1,15 @@
+<?php
+session_start();
+require_once $_SERVER['DOCUMENT_ROOT'] . '/php-scripts/main.php';
+$main = new Main();
+$user = $main->loginCheck();
+if (!$user) {
+    header("location:index.php");
+} else {
+    $username = $_SESSION['user']['username'];
+    $usertype = $_SESSION['user']['usertype'];
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,11 +46,26 @@
                 <a href="#" class="menu-option active">Dashboard</a>
             </li>
             <li>
-                <a href="./view-details.html" class="menu-option">View vehicle details</a>
+                <a href="./view-details.php" class="menu-option">View vehicle details</a>
             </li>
-            <li>
-                <a href="./add-edit-user.html" class="menu-option">Add/Edit users</a>
-            </li>
+            <?php
+            if (isset($usertype) && $usertype == 'admin') {
+            ?>
+                <li>
+                    <a href="./add-edit-user.php" class="menu-option">Add/Edit users</a>
+                </li>
+            <?php
+            }
+            ?>
+            <?php
+            if (isset($usertype) && $usertype == 'admin') {
+            ?>
+                <li>
+                    <a href="./view-users.php" class="menu-option">View users</a>
+                </li>
+            <?php
+            }
+            ?>
         </ul>
     </aside>
     <div class="sidenav-overlay"></div>
@@ -51,8 +78,14 @@
                 <div class="d-flex align-items-center flex-grow-1 justify-content-end justify-content-lg-between">
                     <h2 class="d-none d-lg-block m-0">Dashboard</h2>
                     <div class="d-flex align-items-center">
-                        <p class="m-0 mr-3">Welcome Saravanan</p>
-                        <a href="./index.html" class="btn-floating btn-medium waves-effect waves-light">
+                        <p class="m-0 mr-3">Welcome <?php
+                                                    if (isset($username)) {
+                                                    ?>
+                                <?php echo $username; ?>
+                            <?php
+                                                    }
+                            ?></p>
+                        <a href="./logout.php" class="btn-floating btn-medium waves-effect waves-light">
                             <i class="material-icons">input</i>
                         </a>
                     </div>
@@ -67,25 +100,25 @@
                         <h2 class="mb-5">Choose the type of vehicle</h2>
                         <div class="row button-wrapper">
                             <div class="col-12 col-md-6 col-xl-3">
-                                <a href="./add-entry.html" class="btn-medium waves-effect waves-light btn redirect-btn blue">
+                                <a href="./four-wheeler-entry.php" class="btn-medium waves-effect waves-light btn redirect-btn blue">
                                     <i class="material-icons">directions_car</i>
                                     <p>Four wheeler</p>
                                 </a>
                             </div>
                             <div class="col-12 col-md-6 col-xl-3">
-                                <a href="./add-entry.html" class="btn-medium waves-effect waves-light btn redirect-btn blue">
+                                <a href="" class="btn-medium waves-effect waves-light btn redirect-btn blue">
                                     <i class="material-icons">two_wheeler</i>
                                     <p>Two wheeler</p>
                                 </a>
                             </div>
                             <div class="col-12 col-md-6 col-xl-3">
-                                <a href="./add-entry.html" class="btn-medium waves-effect waves-light btn redirect-btn blue">
+                                <a href="./CV-entry.php" class="btn-medium waves-effect waves-light btn redirect-btn blue">
                                     <i class="material-icons">directions_bus</i>
                                     <p>CV</p>
                                 </a>
                             </div>
                             <div class="col-12 col-md-6 col-xl-3">
-                                <a href="./add-entry.html" class="btn-medium waves-effect waves-light btn redirect-btn blue">
+                                <a href="" class="btn-medium waves-effect waves-light btn redirect-btn blue">
                                     <i class="material-icons">ev_station</i>
                                     <p>FE</p>
                                 </a>

@@ -199,3 +199,50 @@ textarea.materialize-textarea:focus:not([readonly]) {
 .form-register .steps li.done a:active .step-icon {
     background: #4fab40;
 }
+
+.input-field .error {
+    color: #ff0000!important;
+    position: relative;
+    min-height: 18px;
+    display: block;
+    font-size: 12px;
+    top: initial;
+    bottom: initial;
+    transform: initial!important;
+}
+.input-field .helper-text {
+    color: #ff0000!important;
+}
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.watermark {
+    opacity: 0.3;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.printBtn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    outline: 0!important;
+}
+
+@media print {
+    .printBtn {
+        visibility: hidden!important;
+    }
+}
