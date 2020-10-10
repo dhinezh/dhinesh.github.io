@@ -1022,6 +1022,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             </div>
                                         </div>
                                         <h2 class="col-12">HVAC/Cooling</h2>
+                                        <!-- this one not common -->
                                         <div class="col-12 col-md-6 col-xl-3">
                                             <div class="input-field">
                                                 <select name="ECACRefrigrationUnit" id="ECACRefrigrationUnit">
@@ -1046,6 +1047,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                 <label for="ECACHvacCooling">HVAC Cooling</label>
                                             </div>
                                         </div>
+                                        <!-- up here -->
                                         <div class="col-12 col-md-6 col-xl-3">
                                             <div class="input-field">
                                                 <select name="ECACHeaterBlowerFan" id="ECACHeaterBlowerFan">

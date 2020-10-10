@@ -1236,6 +1236,8 @@ class Main
                 $success = $this->getFourwheelerDetails($repId);
                 if ($success) {
                     $columns = $this->columns;
+                    $columns["mainRating"] = $this->getFourWheelerRating($columns);
+                    $columns["avatarImage"] = $columns["carAvatarImage"];
                     return $this->success($columns);
                 } else {
                     $error = $this->msg;
@@ -1245,6 +1247,8 @@ class Main
                 $success = $this->getCVDetails($repId);
                 if ($success) {
                     $columns = $this->columns;
+                    $columns["mainRating"] = $this->getCVRating($columns);
+                    $columns["avatarImage"] = $columns["CVAvatarImage"];
                     return $this->success($columns);
                 } else {
                     $error = $this->msg;
@@ -1254,6 +1258,58 @@ class Main
         } else {
             return $this->error('Record with repId does not exist');
         }
+    }
+
+    public function getCVRating($columns)
+    {
+        $commonRating = $this->getMainRating($columns);
+        $subTotal = $commonRating + $columns["LBLeftSideGate"] + $columns["LBRightSideGate"] + $columns["LBLoadFloor"]
+            + $columns["LBOverallLoadBody"] + $columns["LBBodyPaint"] + $columns["LBFuelTank"] + $columns["ExCWindshield"]
+            + $columns["ExCChassisCondition"] + $columns["ECEletricalCondition"] + $columns["ECBatteryCondition"] + $columns["ECACCooling"]
+            + $columns["ECPowerWindow"] + $columns["ECACRefrigrationUnit"] + $columns["ECACHvacCooling"] + $columns["TCTransmissionCondition"]
+            + $columns["TCTransmissionWorking"] + $columns["TCFrontSuspension"] + $columns["TCRearSuspension"] + $columns["TCFrontLeftTyresCondition"]
+            + $columns["TCFrontRightTyresCondition"] + $columns["TCRearLeftTyresCondition"] +  $columns["TCRearRightTyresCondition"] + $columns["TCSpareTyresCondition"]
+            + $columns["TCTyre5Condition"] + $columns["TCTyre6Condition"] + $columns["TCTyre7Condition"] + $columns["TCTyre8Condition"]
+            + $columns["TCTyre9Condition"] + $columns["TCTyre10Condition"];
+        $total = $subTotal;
+        $result = $total / 30;
+        $result = floor($result * 100) / 100;
+        return $result;
+    }
+
+    public function getFourWheelerRating($columns)
+    {
+        $commonRating = $this->getMainRating($columns);
+        $windshield = $columns["ExCRearWindShield"] === "Original" ? 5 : 3;
+        $tailLight = $columns["ExCRearTailLight"] === "Working" ? 5 : 2;
+        $subTotal = $commonRating + $columns["ExCGrill"] + $columns["ExCFrontBumper"] + $columns["ExCLeftQuarter"]
+            + $columns["ExCRightQuarter"] + $columns["ExCRightFrontDoor"] + $columns["ExCLeftFrontDoor"] + $columns["ExCRightRearDoor"]
+            + $columns["ExCLeftRearDoor"] + $columns["ExCRoof"] + $columns["ExCRearBumper"] + $columns["ExCBodyPaint"]
+            + $columns["ExCDeckLid"] + $columns["InTDashboardCondition"] + $columns["InTFrontLeftSeat"] + $columns["InTFrontRightSeat"]
+            + $columns["InTRearLeftSeat"] + $columns["InTRearRightSeat"] + $columns["InTThirdRowSeatCondition"] + $columns["InTTrunkCargo"]
+            + $columns["IntOdometerCondition"] + $columns["VCRunningCondition"] + $columns["VCTransmissionCondition"] + $columns["VCTransmissionWorking"]
+            + $columns["VCGearShift"] + $columns["VCFrontSuspension"] + $columns["VCRearSuspension"];
+        $total = $windshield + $tailLight + $subTotal;
+        $result = $total / 29;
+        $result = floor($result * 100) / 100;
+        return $result;
+    }
+
+    public function getMainRating($columns)
+    {
+        $engine = $columns["engineCondition"] === "Starts" ? 5 : 1;
+        $vehicleCondition = $columns["vehicleCondition"] === "Running Condition" ? 5 : 1;
+        $batteryStatus = $columns["batteryStatus"] === "Available" ? 5 : 1;
+        $subTotal = $columns["tyreCondition"] + $columns["TDEngineCondition"] + $columns["TDClutch"] + $columns["TDAccelerator"]
+            + $columns["TDGearShiftRatios"] + $columns["TDStearing"] + $columns["TDBreaking"] + $columns["MCEngineCondition"]
+            + $columns["MCEngineOilLevel"] + $columns["MCEngineOilFunction"] + $columns["SCSteeringCondition"]
+            + $columns["ECEletricalCondition"] + $columns["ECBatteryCondition"] + $columns["ECACCooling"] + $columns["ECPowerWindow"]
+            + $columns["ECACHeaterBlowerFan"] + $columns["ECElectricCoolingFan"] + $columns["ECCoolingSystemRadiator"] + $columns["ExCHeadLight"]
+            + $columns["ExCHood"] + $columns["ExCLeftFender"] + $columns["ExCRightFender"];
+        $total = $engine + $vehicleCondition + $batteryStatus + $subTotal;
+        $result = $total / 25;
+        $result = floor($result * 100) / 100;
+        return $result;
     }
 
     public function getFourwheelerDetails($repId)

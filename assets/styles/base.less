@@ -10,9 +10,14 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
-body:not(.dashboard) {
-    display: flex;
-    flex-direction: column;
+.page {
+    width: 247mm;
+    min-height: 297mm;
+    padding: 10mm;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    position: relative;
+    z-index: 1;
 }
 
 .body.dashboard {
@@ -21,6 +26,9 @@ body:not(.dashboard) {
 
 img {
     max-width: 100%;
+}
+p{
+    margin: 0;
 }
 
 input:not([type]):focus:not([readonly])+label,
@@ -124,38 +132,48 @@ textarea.materialize-textarea:focus:not([readonly]) {
         font-size: 3rem;
     }
 }
-.steps ul, .actions ul {
+
+.steps ul,
+.actions ul {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+
     li.disabled {
         opacity: 0.5;
         pointer-events: none;
         cursor: not-allowed;
     }
 }
+
 .steps ul {
     margin-bottom: 2rem;
 }
+
 .actions ul {
     margin: 0;
     margin-top: 2rem;
 }
+
 .form-register {
     .input-field {
         margin: 0;
     }
+
     .modal {
         bottom: auto;
     }
+
     .content .title {
         display: none;
     }
 }
+
 .form-register .steps li a {
     &:hover {
         text-decoration: none;
     }
+
     .title .step-icon {
         width: 40px;
         height: 40px;
@@ -195,24 +213,27 @@ textarea.materialize-textarea:focus:not([readonly]) {
 .form-register .steps li.current a:active .step-icon {
     background: #68bbfd;
 }
+
 .form-register .steps li.done a .step-icon,
 .form-register .steps li.done a:active .step-icon {
     background: #4fab40;
 }
 
 .input-field .error {
-    color: #ff0000!important;
+    color: #ff0000 !important;
     position: relative;
     min-height: 18px;
     display: block;
     font-size: 12px;
     top: initial;
     bottom: initial;
-    transform: initial!important;
+    transform: initial !important;
 }
+
 .input-field .helper-text {
-    color: #ff0000!important;
+    color: #ff0000 !important;
 }
+
 .loading-overlay {
     position: absolute;
     top: 0;
@@ -227,22 +248,46 @@ textarea.materialize-textarea:focus:not([readonly]) {
 }
 
 .watermark {
-    opacity: 0.3;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    z-index: 0;
+    img {
+        opacity: 0.3;
+        transform: rotate(-45deg);
+        width: 500px;
+    }
 }
 
 .printBtn {
     position: fixed;
     bottom: 30px;
     right: 30px;
-    outline: 0!important;
+    outline: 0 !important;
+}
+.printContent {
+    background-color: #d4edda;
+}
+
+@page {
+    size: A4;
+    margin: 0;
 }
 
 @media print {
     .printBtn {
-        visibility: hidden!important;
+        visibility: hidden !important;
+    }
+
+    .page {
+        margin: 0;
+        border: initial;
+        border-radius: initial;
+        width: initial;
+        min-height: initial;
+        box-shadow: initial;
+        background: initial;
+        page-break-after: always;
     }
 }
