@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 03, 2020 at 08:26 AM
+-- Generation Time: Oct 10, 2020 at 04:27 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.3
 
@@ -21,8 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `fast-value-inspection`
 --
-CREATE DATABASE IF NOT EXISTS `fast-value-inspection` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `fast-value-inspection`;
 
 -- --------------------------------------------------------
 
@@ -196,13 +194,6 @@ CREATE TABLE `fourwheeler_electrical_functions` (
   `ECCoolingSystemRadiator` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `fourwheeler_electrical_functions`
---
-
-INSERT INTO `fourwheeler_electrical_functions` (`repId`, `ECEletricalCondition`, `ECBatteryCondition`, `ECACCooling`, `ECPowerWindow`, `ECACHeaterBlowerFan`, `ECElectricCoolingFan`, `ECCoolingSystemRadiator`) VALUES
-('123', 5, 5, 5, 5, 5, 5, 5);
-
 -- --------------------------------------------------------
 
 --
@@ -232,13 +223,6 @@ CREATE TABLE `fourwheeler_exterior_conditions` (
   `ExCDeckLid` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `fourwheeler_exterior_conditions`
---
-
-INSERT INTO `fourwheeler_exterior_conditions` (`repId`, `ExCGrill`, `ExCHeadLight`, `ExCHood`, `ExCFrontBumper`, `ExCLeftFender`, `ExCRightFender`, `ExCLeftQuarter`, `ExCRightQuarter`, `ExCFrontWindshield`, `ExCRightFrontDoor`, `ExCLeftFrontDoor`, `ExCRightRearDoor`, `ExCLeftRearDoor`, `ExCRoof`, `ExCRearWindShield`, `ExCRearTailLight`, `ExCRearBumper`, `ExCBodyPaint`, `ExCDeckLid`) VALUES
-('123', 5, 5, 5, 5, 5, 5, 5, 5, 'Original', 5, 5, 5, 5, 5, 'Original', 'Working', 5, 5, 5);
-
 -- --------------------------------------------------------
 
 --
@@ -267,13 +251,6 @@ CREATE TABLE `fourwheeler_image_info` (
   `tyre4Image` tinytext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `fourwheeler_image_info`
---
-
-INSERT INTO `fourwheeler_image_info` (`repId`, `carAvatarImage`, `chassisImprintImage`, `carFrontImage`, `carRightImage`, `carRearImage`, `carLeftImage`, `dashboardImage`, `gearAndSeatImage`, `odometerImage`, `engineRoomImage`, `regPlateImage`, `chassisNoImage`, `rcFrontImage`, `rcBackImage`, `tyre1Image`, `tyre2Image`, `tyre3Image`, `tyre4Image`) VALUES
-('123', 'zero.png', 'akshata2.png', 'bitmap.jpg', 'brand_ambassador_program.jpg', 'gift_a_healthy_living.jpeg', 'hygiene.png', 'medical32.png', 'on_health_and_wellness_products_300X138.jpg', 'on_health_and_wellness_products.jpg', 'safety.png', 'sid.png', 'subscribe_now_300X130.jpg', 'subscribe_now.jpg', 'teammed.png', 'tele_consultation_300X138.jpg', 'tele_consultation.jpg', 'text2.png', 'worldhealthlogo.png');
-
 -- --------------------------------------------------------
 
 --
@@ -296,13 +273,6 @@ CREATE TABLE `fourwheeler_interior_conditions` (
   `IntOdometerCondition` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `fourwheeler_interior_conditions`
---
-
-INSERT INTO `fourwheeler_interior_conditions` (`repId`, `InTDashboardCondition`, `InTFrontLeftSeat`, `InTFrontRightSeat`, `InTRearLeftSeat`, `InTRearRightSeat`, `InTThirdRowSeatCondition`, `InTTrunkCargo`, `InTCruiseControl`, `InTAirbags`, `InTPowerWindow`, `InTCarpetNFloorMat`, `IntOdometerCondition`) VALUES
-('123', 5, 5, 5, 5, 5, 5, 5, 'Available', 'Available', 'Available', 5, 5);
-
 -- --------------------------------------------------------
 
 --
@@ -324,13 +294,6 @@ CREATE TABLE `fourwheeler_tyre_conditions` (
   `TCSpareWheel` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `fourwheeler_tyre_conditions`
---
-
-INSERT INTO `fourwheeler_tyre_conditions` (`repId`, `TCNoOfTyres`, `TCFrontRightWheelType`, `TCFrontLeftWheelType`, `TCRearRightWheelType`, `TCRearLeftWheelType`, `TCSpareWheelType`, `TCFrontLeftWheel`, `TCFrontRightWheel`, `TCRearLeftWheel`, `TCRearRightWheel`, `TCSpareWheel`) VALUES
-('123', 5, 'Rim', 'Rim', 'Rim', 'Rim', 'Rim', '10', '10', '10', '10', '10');
-
 -- --------------------------------------------------------
 
 --
@@ -348,13 +311,6 @@ CREATE TABLE `fourwheeler_vehicle_condition` (
   `VCRearSuspension` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `fourwheeler_vehicle_condition`
---
-
-INSERT INTO `fourwheeler_vehicle_condition` (`repId`, `VCRunningCondition`, `VCEngineStart`, `VCTransmissionCondition`, `VCTransmissionWorking`, `VCGearShift`, `VCFrontSuspension`, `VCRearSuspension`) VALUES
-('123', 5, 'Starts', 5, 5, 5, 5, 5);
-
 -- --------------------------------------------------------
 
 --
@@ -370,13 +326,6 @@ CREATE TABLE `insurance_details` (
   `insuranceValue` tinytext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `insurance_details`
---
-
-INSERT INTO `insurance_details` (`repId`, `insuranceType`, `insuranceCompany`, `insuranceFrom`, `InsuranceUpTo`, `insuranceValue`) VALUES
-('123', 'Full', 'HDFC', 'May 08, 2020', 'May 31, 2020', '1450000');
-
 -- --------------------------------------------------------
 
 --
@@ -390,13 +339,6 @@ CREATE TABLE `mechanical_conditions` (
   `MCEngineOilLevel` int(3) NOT NULL,
   `MCEngineOilFunction` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `mechanical_conditions`
---
-
-INSERT INTO `mechanical_conditions` (`repId`, `MCEngineCondition`, `MCEngineRunning`, `MCEngineOilLevel`, `MCEngineOilFunction`) VALUES
-('123', 5, 'Yes', 5, 5);
 
 -- --------------------------------------------------------
 
@@ -419,13 +361,6 @@ CREATE TABLE `parivahan_details` (
   `unladenWeight` varchar(100) NOT NULL,
   `sleeperCapacity` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `parivahan_details`
---
-
-INSERT INTO `parivahan_details` (`repId`, `parivahanOwnerName`, `parivahanMaker`, `parivahanModel`, `parivahanManufacturedYear`, `parivahanRegDate`, `vehicleCategory`, `engineNumber`, `chassisNumber`, `bodyType`, `ladenWeight`, `unladenWeight`, `sleeperCapacity`) VALUES
-('123', 'Dhinesh S', 'Skoda', 'Rapid', '2019', 'May 04, 2020', 'Four wheeler', 'skdjfhd98mnsbdfk', 'jwyer876687jhsgdfu', 'Sedan', '2390', '1890', '4');
 
 -- --------------------------------------------------------
 
@@ -463,13 +398,6 @@ CREATE TABLE `stearing_conditions` (
   `SCSteeringCondition` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `stearing_conditions`
---
-
-INSERT INTO `stearing_conditions` (`repId`, `SCSteeringPlay`, `SCPowerSteering`, `SCStearing`, `SCSteeringCondition`) VALUES
-('123', 'Yes', 'Working', 'Power', 5);
-
 -- --------------------------------------------------------
 
 --
@@ -483,13 +411,6 @@ CREATE TABLE `tax_details` (
   `taxUpTo` varchar(100) NOT NULL,
   `taxClearUpTo` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `tax_details`
---
-
-INSERT INTO `tax_details` (`repId`, `taxAmount`, `taxRecipientDate`, `taxUpTo`, `taxClearUpTo`) VALUES
-('123', '120000', 'May 31, 2020', '11323', '3455');
 
 -- --------------------------------------------------------
 
@@ -506,13 +427,6 @@ CREATE TABLE `testdrive_results` (
   `TDStearing` int(3) NOT NULL,
   `TDBreaking` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `testdrive_results`
---
-
-INSERT INTO `testdrive_results` (`repId`, `TDEngineCondition`, `TDClutch`, `TDAccelerator`, `TDGearShiftRatios`, `TDStearing`, `TDBreaking`) VALUES
-('123', 5, 5, 5, 5, 5, 5);
 
 -- --------------------------------------------------------
 
@@ -557,13 +471,6 @@ CREATE TABLE `vehicle_details` (
   `createdOn` date NOT NULL,
   `vehicleType` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `vehicle_details`
---
-
-INSERT INTO `vehicle_details` (`repId`, `inspectionDate`, `loanNo`, `location`, `vehicleMake`, `vehicleModel`, `vehicleVariant`, `vehicleRegNo`, `vehicleRegDate`, `ownerName`, `rcType`, `manufacturedYear`, `insuranceStatus`, `vehicleInsuranceDate`, `odometerReading`, `vehicleOwnership`, `reportType`, `hpaStatus`, `hpaBank`, `transmissionType`, `fuelType`, `vehicleColor`, `engineCondition`, `vehicleCondition`, `structuralCondition`, `ownerSerial`, `vehicleKey`, `batteryStatus`, `tyreCondition`, `reportRequestedBy`, `valuationPrice`, `remarks`, `createdBy`, `createdOn`, `vehicleType`) VALUES
-('123', 'May 09, 2020', '9876', 'Bengaluru', 'Skoda', 'Rapid', 'TSI', 'KA51HH9037', 'Jul 08, 2019', 'Dhinesh S', 'Available', '2019', 'Available', 'May 31, 2020', '4300', 1, 'Retail', 'Good', 'HDFC Bank', 'Manual', 'Diesel', 'Black', 'Starts', 'Running Conditio', 'Good', 1, 'Available', 'Available', 5, 'Saravanan K', '1500000', 'The vehicle is in good condition', 'Dhinesh S', '2020-05-09', 'four-wheeler');
 
 --
 -- Indexes for dumped tables
