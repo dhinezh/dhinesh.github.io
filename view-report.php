@@ -182,7 +182,7 @@ function moneyFormatIndia($num)
                                 <span>Report Type:</span>&nbsp;
                                 <span style="color: #333"><?php echo $columns["reportType"]; ?></span>
                             </p>
-                            <img src="./php-scripts/uploadedImages/<?php echo $columns["avatarImage"]; ?>" alt="avatar" />
+                            <img src="./php-scripts/uploadedImages/<?php echo $columns["avatarImage"]; ?>" class="main-avatar" alt="avatar" />
                         </div>
                     </div>
                     <h2 style="color: #053677; font-size: 1.25rem;" class="mb-3 border-bottom pb-3">Inspection Report Summary</h2>
