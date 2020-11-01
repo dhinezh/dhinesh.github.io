@@ -175,6 +175,7 @@ class Main
         if ($this->checkforExistingRegno($regNo)) {
             return $this->error("Vehicle with register number already exists.");
         }
+        set_time_limit(180);
         $functionsCalled =
             $this->uploadFourwheelerImages() and
             $this->registerCommonFields("four-wheeler") and
@@ -200,6 +201,7 @@ class Main
         if ($this->checkforExistingRegno($regNo)) {
             return $this->error("CV with register number already exists.");
         }
+        set_time_limit(180);
         $functionsCalled =
             $this->uploadCVImages() and
             $this->registerCommonFields("CV") and

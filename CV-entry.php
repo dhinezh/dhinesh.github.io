@@ -116,16 +116,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="card">
                     <div class="card-content">
                         <div class="loading-overlay">
-                            <div class="preloader-wrapper big active">
-                                <div class="spinner-layer spinner-blue-only">
-                                    <div class="circle-clipper left">
-                                        <div class="circle"></div>
+                            <div class="text-center w-100" style="padding: 0 10rem;">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%">
                                     </div>
-                                    <div class="gap-patch">
-                                        <div class="circle"></div>
-                                    </div>
-                                    <div class="circle-clipper right">
-                                        <div class="circle"></div>
+                                </div>
+                                <div class="preloader-wrapper big active">
+                                    <div class="spinner-layer spinner-blue-only">
+                                        <div class="circle-clipper left">
+                                            <div class="circle"></div>
+                                        </div>
+                                        <div class="gap-patch">
+                                            <div class="circle"></div>
+                                        </div>
+                                        <div class="circle-clipper right">
+                                            <div class="circle"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1888,8 +1894,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         xhr.upload.addEventListener("progress", function(evt) {
                             if (evt.lengthComputable) {
                                 var percentComplete = ((evt.loaded / evt.total) * 100);
-                                $(".progress-bar").width(percentComplete + '%');
-                                $(".progress-bar").html(percentComplete + '%');
+                                var value = Math.round(percentComplete);
+                                $(".progress-bar").css("width", `${value}%`);
+                                $(".progress-bar").html(value + '%');
                             }
                         }, false);
                         return xhr;
@@ -1900,6 +1907,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     cache: false,
                     processData: false,
                     beforeSend: function() {
+                        $(".progress-bar").css("width", '0%');
                         $('.loading-overlay').show();
                     },
                     error: function(resp) {
