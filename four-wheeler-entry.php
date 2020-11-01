@@ -5,15 +5,27 @@ $main = new Main();
 $user = $main->loginCheck();
 if (!$user) {
     header("location:index.php");
+    die();
 } else {
     $username = $_SESSION['user']['username'];
     $usertype = $_SESSION['user']['usertype'];
 }
-$loading = false;
+$upload = 'err';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $loading = true;
-    $registrationResponse = $main->registerFourwheeler();
-    $loading = empty($registrationResponse["status"]);
+    try {
+        $registrationResponse = $main->registerFourwheeler();
+        if (!empty($registrationResponse["status"])) {
+            if ($registrationResponse["status"] == "success") {
+                $upload = 'ok';
+            } else {
+                $upload = $registrationResponse["message"];
+            }
+        }
+    } catch (Exception $e) {
+        $upload = $e->getMessage();
+    }
+    echo $upload;
+    exit;
 }
 ?>
 <!DOCTYPE html>
@@ -103,54 +115,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="container pt-5">
                 <div class="card">
                     <div class="card-content">
-                        <?php
-                        if ($loading == true) {
-                        ?>
-                            <div class="loading-overlay">
-                                <div class="preloader-wrapper big active">
-                                    <div class="spinner-layer spinner-blue-only">
-                                        <div class="circle-clipper left">
-                                            <div class="circle"></div>
-                                        </div>
-                                        <div class="gap-patch">
-                                            <div class="circle"></div>
-                                        </div>
-                                        <div class="circle-clipper right">
-                                            <div class="circle"></div>
-                                        </div>
+                        <div class="loading-overlay">
+                            <div class="preloader-wrapper big active">
+                                <div class="spinner-layer spinner-blue-only">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="gap-patch">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="circle-clipper right">
+                                        <div class="circle"></div>
                                     </div>
                                 </div>
                             </div>
-                        <?php
-                        }
-                        ?>
-                        <?php
-                        if (!empty($registrationResponse["status"])) {
-                        ?>
-                            <?php
-                            if ($registrationResponse["status"] == "error") {
-                            ?>
-                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    <?php echo $registrationResponse["message"]; ?>
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                            <?php
-                            } else if ($registrationResponse["status"] == "success") {
-                            ?>
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    <?php echo $registrationResponse["message"]; ?>
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                            <?php
-                            }
-                            ?>
-                        <?php
-                        }
-                        ?>
+                        </div>
+                        <div id="error" class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <span id="error-msg"></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div id="success" class="alert alert-success alert-dismissible fade show" role="alert">
+                            <span id="success-msg"></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
                         <form id="four-wheeler-entry-form" name="four-wheeler-entry-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
                             <div class="form-register">
                                 <!-- SECTION 1 -->
@@ -1655,13 +1646,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <div class="file-field input-field">
                                                 <div class="btn">
                                                     <span>Upload</span>
-                                                    <input type="file" name="tyre4Image">
+                                                    <input type="file" id="tyre4Image" name="tyre4Image">
                                                 </div>
                                                 <div class="file-path-wrapper">
                                                     <input class="file-path validate" type="text" placeholder="Tyre 4">
                                                 </div>
                                             </div>
                                         </div>
+                                        <div id="targetLayer"></div>
                                     </div>
                                 </section>
                             </div>
@@ -1692,6 +1684,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $('.side-menu-wrapper').removeClass("show");
                 });
                 e.preventDefault();
+            });
+            $('.loading-overlay').hide();
+            $('#error').hide();
+            $('#success').hide();
+            $("#four-wheeler-entry-form").on('submit', function(e) {
+                e.preventDefault();
+                $.ajax({
+                    xhr: function() {
+                        var xhr = new window.XMLHttpRequest();
+                        xhr.upload.addEventListener("progress", function(evt) {
+                            if (evt.lengthComputable) {
+                                var percentComplete = ((evt.loaded / evt.total) * 100);
+                                $(".progress-bar").width(percentComplete + '%');
+                                $(".progress-bar").html(percentComplete + '%');
+                            }
+                        }, false);
+                        return xhr;
+                    },
+                    type: 'POST',
+                    data: new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    beforeSend: function() {
+                        $('.loading-overlay').show();
+                    },
+                    error: function(resp) {
+                        $('#error').show();
+                        $('.loading-overlay').hide();
+                        $('#error-msg').html(`<p style="color:#EA4335;">${resp}</p>`);
+                    },
+                    success: function(resp) {
+                        if (resp == 'ok') {
+                            $('.loading-overlay').hide();
+                            $('#success').show();
+                            $('#success-msg').html('<p>Four wheeler registered registered successfully.</p>');
+                        } else {
+                            $('#error').show();
+                            $('.loading-overlay').hide();
+                            $('#error-msg').html(`<p style="color:#EA4335;">${resp}</p>`);
+                        }
+                    }
+                });
             });
         });
     </script>

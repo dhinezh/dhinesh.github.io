@@ -5,20 +5,31 @@ $main = new Main();
 $user = $main->loginCheck();
 if (!$user) {
     header("location:index.php");
+    die();
 } else {
     $username = $_SESSION['user']['username'];
     $usertype = $_SESSION['user']['usertype'];
 }
+$upload = 'err';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST["username"];
-    $pass = $_POST["password"];
-    $mobile = $_POST["mobile"];
-    $usertype = $_POST["usertype"];
-    if ($_POST['Submit'] == "Submit") {
+    try {
+        $username = $_POST["username"];
+        $pass = $_POST["password"];
+        $mobile = $_POST["mobile"];
+        $usertype = $_POST["usertype"];
         $registrationResponse = $main->registration($username, $pass, $mobile, $usertype);
-    } else if ($_POST['Submit'] == "Save changes") {
-        $registrationResponse = $main->editUser($username, $pass, $mobile, $usertype);
+        if (!empty($registrationResponse["status"])) {
+            if ($registrationResponse["status"] == "success") {
+                $upload = 'ok';
+            } else {
+                $upload = $registrationResponse["message"];
+            }
+        }
+    } catch (Exception $e) {
+        $upload = $e->getMessage();
     }
+    echo $upload;
+    exit;
 }
 ?>
 <!DOCTYPE html>
@@ -109,34 +120,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="container pt-5">
                 <div class="card">
                     <div class="card-content">
-                        <?php
-                        if (!empty($registrationResponse["status"])) {
-                        ?>
-                            <?php
-                            if ($registrationResponse["status"] == "error") {
-                            ?>
-                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    <?php echo $registrationResponse["message"]; ?>
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+                        <div class="loading-overlay">
+                            <div class="preloader-wrapper big active">
+                                <div class="spinner-layer spinner-blue-only">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="gap-patch">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="circle-clipper right">
+                                        <div class="circle"></div>
+                                    </div>
                                 </div>
-                            <?php
-                            } else if ($registrationResponse["status"] == "success") {
-                            ?>
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    <?php echo $registrationResponse["message"]; ?>
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                            <?php
-                            }
-                            ?>
-                        <?php
-                        }
-                        ?>
-                        <form id="addUser" name="addUser" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+                            </div>
+                        </div>
+                        <div id="error" class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <span id="error-msg"></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div id="success" class="alert alert-success alert-dismissible fade show" role="alert">
+                            <span id="success-msg"></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form id="addUser" name="addUser" action="" method="post" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col-12 col-lg-6">
                                     <div class="input-field">
@@ -177,9 +188,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     </div>
                                 </div>
                             </div>
-                            <div class="float-left d-flex">
-                                <button type='submit' name='Submit' value="Save changes" class="btn btn-primary mt-3 waves-effect waves-light float-left">Save changes</button>
-                            </div>
                             <button type='submit' name='Submit' value="Submit" class="btn btn-primary mt-3 waves-effect waves-light float-right">Submit</button>
                         </form>
                     </div>
@@ -190,13 +198,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </main>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!--JavaScript at end of body for optimized loading-->
     <script type="text/javascript" src="./assets/lib/core/materialize.min.js"></script>
     <script>
         $(document).ready(function() {
+            $('.loading-overlay').hide();
+            $('#error').hide();
+            $('#success').hide();
             $('#username').val('');
             $('#password').val('');
             $('#confpassword').val('');
@@ -222,6 +233,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 e.preventDefault();
             });
             $('#addUser').on('submit', function(e) {
+                e.preventDefault();
                 var valid = true;
                 var Password = $('#password').val();
                 var confpassword = $('#confpassword').val();
@@ -230,7 +242,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     valid = false;
                     $('#addUser_confpassword_errorloc').text('The confirmed password is not same as password');
                 }
-                return valid;
+                if (!valid) return valid;
+                $.ajax({
+                    xhr: function() {
+                        var xhr = new window.XMLHttpRequest();
+                        xhr.upload.addEventListener("progress", function(evt) {
+                            if (evt.lengthComputable) {
+                                var percentComplete = ((evt.loaded / evt.total) * 100);
+                                $(".progress-bar").width(percentComplete + '%');
+                                $(".progress-bar").html(percentComplete + '%');
+                            }
+                        }, false);
+                        return xhr;
+                    },
+                    type: 'POST',
+                    data: new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    beforeSend: function() {
+                        $('.loading-overlay').show();
+                    },
+                    error: function(resp) {
+                        $('#error').show();
+                        $('.loading-overlay').hide();
+                        $('#error-msg').html(`<p style="color:#EA4335;">${resp}</p>`);
+                    },
+                    success: function(resp) {
+                        if (resp == 'ok') {
+                            $('.loading-overlay').hide();
+                            $('#success').show();
+                            $('#success-msg').html('<p>User action executed successfully.</p>');
+                        } else {
+                            $('#error').show();
+                            $('.loading-overlay').hide();
+                            $('#error-msg').html(`<p style="color:#EA4335;">${resp}</p>`);
+                        }
+                    }
+                });
             });
         });
     </script>

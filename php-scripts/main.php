@@ -54,11 +54,11 @@ class Main
     public function registration($username, $pass, $mobile, $usertype)
     {
         $pdo = $this->pdo;
-        if ($this->checkForExistingMobile($mobile)) {
-            return $this->error("Mobile number already exists.");
-        }
         if (!(isset($username) && isset($pass) && isset($mobile) && isset($usertype))) {
             return $this->error('Insert all valid required fields.');
+        }
+        if ($this->checkForExistingMobile($mobile)) {
+            return $this->editUser($username, $pass, $mobile, $usertype);
         }
 
         $pass = $this->hashPass($pass);
@@ -1003,19 +1003,12 @@ class Main
     public function editUser($username, $pass, $mobile, $usertype)
     {
         $pdo = $this->pdo;
-        if (!(isset($username) && isset($pass) && isset($mobile) && isset($usertype))) {
-            return $this->error('Insert all valid required fields.');
-        }
-        if ($this->checkForExistingMobile($mobile)) {
-            $pass = $this->hashPass($pass);
-            $stmt = $pdo->prepare('UPDATE registered_users SET username = ?, password = ?, usertype = ? WHERE mobile = ?');
-            if ($stmt->execute([$username, $pass, $usertype, $mobile])) {
-                return $this->success("User changes saved successfully.");
-            } else {
-                return $this->error('User editing failed');
-            }
+        $pass = $this->hashPass($pass);
+        $stmt = $pdo->prepare('UPDATE registered_users SET username = ?, password = ?, usertype = ? WHERE mobile = ?');
+        if ($stmt->execute([$username, $pass, $usertype, $mobile])) {
+            return $this->success("User changes saved successfully.");
         } else {
-            return $this->error('User with mobile number does not exist');
+            return $this->error('User editing failed');
         }
     }
 
