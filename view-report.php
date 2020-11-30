@@ -1179,6 +1179,10 @@ function moneyFormatIndia($num)
                                 <h3 class="image-caption">Gear and Seat</h3>
                             </div>
                             <div class="col-4">
+                                <img src="./php-scripts/uploadedImages/<?php echo $columns["rearSeatImage"]; ?>" alt="chassis imprint" />
+                                <h3 class="image-caption">Rear Seat</h3>
+                            </div>
+                            <div class="col-4">
                                 <img src="./php-scripts/uploadedImages/<?php echo $columns["odometerImage"]; ?>" alt="chassis imprint" />
                                 <h3 class="image-caption">Odometer</h3>
                             </div>

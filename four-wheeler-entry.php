@@ -1553,6 +1553,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <div class="file-field input-field">
                                                 <div class="btn">
                                                     <span>Upload</span>
+                                                    <input type="file" name="rearSeatImage">
+                                                </div>
+                                                <div class="file-path-wrapper">
+                                                    <input class="file-path validate" type="text" placeholder="Rear Seat">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6 col-xl-3">
+                                            <div class="file-field input-field">
+                                                <div class="btn">
+                                                    <span>Upload</span>
                                                     <input type="file" name="odometerImage">
                                                 </div>
                                                 <div class="file-path-wrapper">

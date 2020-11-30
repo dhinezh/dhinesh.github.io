@@ -630,7 +630,7 @@ class Main
     {
         $fileArray = array(
             "carAvatarImage", "chassisImprintImage", "carFrontImage", "carRightImage",
-            "carRearImage", "carLeftImage", "dashboardImage", "gearAndSeatImage", "odometerImage",
+            "carRearImage", "carLeftImage", "dashboardImage", "gearAndSeatImage", "rearSeatImage", "odometerImage",
             "engineRoomImage", "regPlateImage", "chassisNoImage", "rcFrontImage", "rcBackImage",
             "tyre1Image", "tyre2Image", "tyre3Image", "tyre4Image"
         );
@@ -667,13 +667,13 @@ class Main
         try {
             $stmt = $pdo->prepare('INSERT INTO fourwheeler_image_info
             (repId, carAvatarImage, chassisImprintImage, carFrontImage, carRightImage, 
-            carRearImage, carLeftImage, dashboardImage, gearAndSeatImage, odometerImage,
-            engineRoomImage, regPlateImage, chassisNoImage, rcFrontImage, rcBackImage,
-            tyre1Image, tyre2Image, tyre3Image, tyre4Image) VALUES (
+            carRearImage, carLeftImage, dashboardImage, gearAndSeatImage, rearSeatImage,
+            odometerImage, engineRoomImage, regPlateImage, chassisNoImage, rcFrontImage,
+            rcBackImage, tyre1Image, tyre2Image, tyre3Image, tyre4Image) VALUES (
                 ?, ?, ?, ?, ?,
                 ?, ?, ?, ?, ?,
                 ?, ?, ?, ?, ?,
-                ?, ?, ?, ?
+                ?, ?, ?, ?, ?
             )');
             $stmt->execute($imageNames);
             //success
